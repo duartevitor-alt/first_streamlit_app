@@ -1,5 +1,18 @@
+from typing import Any
+
 import pandas as pd
+import requests
 import streamlit
+
+
+def requests_fruityvice(fruit: str) -> Any:
+    URL: str = "https://fruityvice.com/api/fruit/"
+    try:
+        response: requests.Response = requests.get(f"{URL}{fruit}")
+        return response.json()
+    except Exception as e:
+        return {"error": e}
+
 
 streamlit.title("My parents new healthy diner")
 
@@ -22,5 +35,12 @@ fruits_selected = streamlit.multiselect("Pick some fruits:", list(
 
 # Filtered df to show
 df_to_show = my_fruit_list.loc[fruits_selected]
+
 # Display df
 streamlit.dataframe(df_to_show)
+
+# New header
+streamlit.header("Fruityvice Fruit Advice!")
+
+# Panting watermelon info
+streamlit.text(requests_fruityvice(fruit="watermelon"))
