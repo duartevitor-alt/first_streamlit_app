@@ -1,5 +1,3 @@
-# from typing import Any
-
 import pandas as pd
 import requests
 import streamlit
@@ -43,5 +41,5 @@ streamlit.dataframe(df_to_show)
 streamlit.header("Fruityvice Fruit Advice!")
 
 # Panting watermelon info
-watermelon_info = requests_fruityvice(fruit="watermelon")
-streamlit.text(watermelon_info)
+watermelon_info = pd.json_normalize(requests_fruityvice(fruit="watermelon"))
+streamlit.dataframe(watermelon_info)
