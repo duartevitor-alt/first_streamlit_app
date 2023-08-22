@@ -1,11 +1,11 @@
-from typing import Any
+# from typing import Any
 
 import pandas as pd
 import requests
 import streamlit
 
 
-def requests_fruityvice(fruit: str) -> Any:
+def requests_fruityvice(fruit: str):
     URL: str = "https://fruityvice.com/api/fruit/"
     try:
         response: requests.Response = requests.get(f"{URL}{fruit}")
@@ -43,4 +43,4 @@ streamlit.dataframe(df_to_show)
 streamlit.header("Fruityvice Fruit Advice!")
 
 # Panting watermelon info
-streamlit.text(requests_fruityvice(fruit="watermelon"))
+# streamlit.text(requests_fruityvice(fruit="watermelon"))
