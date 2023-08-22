@@ -1,6 +1,5 @@
 import pandas as pd
 import requests
-import snowflake.connector
 import streamlit
 
 
@@ -49,3 +48,5 @@ streamlit.write('The user entered ', fruit_choice)
 # Panting fruit info
 fruit_info = pd.json_normalize(requests_fruityvice(fruit=fruit_choice))
 streamlit.dataframe(fruit_info)
+
+import snowflake.connector
