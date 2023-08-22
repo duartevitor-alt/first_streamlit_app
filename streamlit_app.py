@@ -40,6 +40,11 @@ streamlit.dataframe(df_to_show)
 # New header
 streamlit.header("Fruityvice Fruit Advice!")
 
-# Panting watermelon info
-watermelon_info = pd.json_normalize(requests_fruityvice(fruit="watermelon"))
-streamlit.dataframe(watermelon_info)
+# User input
+fruit_choice = streamlit.text_input(
+    'What fruit would you like information about?', 'Kiwi')
+streamlit.write('The user entered ', fruit_choice)
+
+# Panting fruit info
+fruit_info = pd.json_normalize(requests_fruityvice(fruit=fruit_choice))
+streamlit.dataframe(fruit_info)
