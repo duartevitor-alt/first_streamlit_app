@@ -43,4 +43,5 @@ streamlit.dataframe(df_to_show)
 streamlit.header("Fruityvice Fruit Advice!")
 
 # Panting watermelon info
-# streamlit.text(requests_fruityvice(fruit="watermelon"))
+watermelon_info = requests_fruityvice(fruit="watermelon")
+streamlit.text(watermelon_info)
