@@ -15,6 +15,19 @@ def requests_fruityvice(fruit: str):
         return {"error": e}
 
 
+def get_fruit_load():
+    with my_cnx.cursor() as my_cur:
+        my_cur.execute("SELECT * FROM FRUIT_LOAD_LIST")
+        return my_cur.fetchall()
+
+
+def insert_row_snoflake(new_fruit) -> str:
+    with my_cnx.cursor() as my_cur:
+        my_cur.execute(
+            f"insert into PC_RIVERY_DB.PUBLIC.FRUIT_LOAD_LIST values ('{new_fruit}')")
+        return f"Thanks for adding {new_fruit}"
+
+
 streamlit.title("My parents new healthy diner")
 
 streamlit.header("Breakfest menu")
@@ -56,22 +69,18 @@ try:
 except URLError as e:
     streamlit.error(e)
 
-# Panting fruit info
-# fruit_info = pd.json_normalize(requests_fruityvice(fruit=fruit_choice))
-# streamlit.dataframe(fruit_info)
-streamlit.stop()
-
-my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-my_cur = my_cnx.cursor()
-my_cur.execute("SELECT * FROM FRUIT_LOAD_LIST")
-my_data_rows = my_cur.fetchall()
 streamlit.header("The fruit load list contains:")
-streamlit.dataframe(my_data_rows)
+if streamlit.button("Get Fruit Load List"):
+    my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+    my_data_rows = get_fruit_load()
+    my_cnx.close()
+    streamlit.dataframe(my_data_rows)
 
-second_fruit_choice = streamlit.text_input(
-    'What fruit do you  like to add?', 'Morango')
-streamlit.write('Thanks for adding ', second_fruit_choice)
-
-my_cur.execute(
-    "insert into PC_RIVERY_DB.PUBLIC.FRUIT_LOAD_LIST values ('from streamlit')"
-)
+second_fruit_choice = streamlit.text_input('What fruit do you  like to add?')
+if streamlit.button("Add a Fruit to the List"):
+    if second_fruit_choice:
+        with snowflake.connector.connect(**streamlit.secrets["snowflake"]) as my_cnx:
+            back_insert = insert_row_snoflake(new_fruit=second_fruit_choice)
+            streamlit.text(back_insert)
+    else:
+        streamlit.error("Please to input a valid name")
