@@ -49,6 +49,7 @@ streamlit.write('The user entered ', fruit_choice)
 # Panting fruit info
 fruit_info = pd.json_normalize(requests_fruityvice(fruit=fruit_choice))
 streamlit.dataframe(fruit_info)
+streamlit.stop()
 
 my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
 my_cur = my_cnx.cursor()
